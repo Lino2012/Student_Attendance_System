@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from urllib.parse import urlparse
+
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.academics',
+    'apps.accounts',
+    'apps.attendance',
+    'apps.notifications',
+    'apps.reports',
 ]
 
 MIDDLEWARE = [
@@ -72,16 +82,25 @@ WSGI_APPLICATION = 'Student_Attendance_App.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+DATABASE_URL = 'mysql://root:lLPtIzrytwbZoUsNcPllDHHrknImBuYp@hayabusa.proxy.rlwy.net:57187/railway'
+parsed_db = urlparse(DATABASE_URL)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': parsed_db.path.lstrip('/'),
+        'USER': parsed_db.username,
+        'PASSWORD': parsed_db.password,
+        'HOST': parsed_db.hostname,
+        'PORT': parsed_db.port or 3306,
     }
 }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
