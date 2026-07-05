@@ -1,164 +1,182 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:'Poppins',sans-serif;
-}
-
 .login-page{
   min-height:100vh;
   display:flex;
   background:#f8fafc;
 }
 
-/* LEFT */
+/* LEFT SIDE */
 
-.left-section{
-  flex:1;
-  padding:80px;
+.left-panel{
 
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  width:55%;
+
+  position:relative;
+
+  background:
+  url("/college.jpg");
+
+  background-size:cover;
+  background-position:center;
+
+  overflow:hidden;
+}
+
+.image-overlay{
+
+  position:absolute;
+
+  inset:0;
 
   background:
   linear-gradient(
-    135deg,
-    #eff6ff,
-    #dbeafe
+    to top,
+    rgba(15,23,42,.9),
+    rgba(15,23,42,.2)
   );
 }
 
-.left-section h1{
+/* Branding */
+
+.branding{
+
+  position:absolute;
+
+  bottom:120px;
+
+  left:60px;
+
+  z-index:2;
+
+  color:white;
+}
+
+.branding h1{
+
   font-size:3rem;
-  color:#2563eb;
-  margin-bottom:20px;
+
+  font-weight:700;
+
+  margin-bottom:10px;
 }
 
-.left-section p{
-  max-width:500px;
-  color:#475569;
-  line-height:1.8;
+.branding p{
+
+  font-size:1.2rem;
+
+  opacity:.9;
 }
 
-.features{
-  margin-top:40px;
+/* Support */
 
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+.support{
+
+  position:absolute;
+
+  bottom:40px;
+
+  left:60px;
+
+  z-index:2;
+
+  color:white;
 }
 
-.features span{
-  font-weight:500;
-  color:#1e293b;
+.support a{
+
+  display:block;
+
+  margin-top:8px;
+
+  color:white;
 }
 
-/* RIGHT */
+/* Floating Cards */
 
-.right-section{
-  flex:1;
+.floating-card{
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+  position:absolute;
 
-.login-card{
-  width:420px;
+  z-index:2;
 
-  background:white;
+  background:
+  rgba(255,255,255,.15);
 
-  border-radius:32px;
+  backdrop-filter:
+  blur(12px);
 
-  padding:40px;
+  border:
+  1px solid
+  rgba(255,255,255,.2);
 
-  box-shadow:
-  15px 15px 30px rgba(0,0,0,.08),
-  -15px -15px 30px rgba(255,255,255,.9);
-}
+  padding:20px;
 
-.logo{
-  text-align:center;
-  font-size:3rem;
-}
-
-.login-card h2{
-  text-align:center;
-  margin:20px 0 30px;
-  color:#1e293b;
-}
-
-.role-selector{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.role-selector button{
-  flex:1;
-
-  border:none;
-
-  padding:12px;
-
-  border-radius:15px;
-
-  cursor:pointer;
-
-  background:#eff6ff;
-
-  color:#2563eb;
-
-  font-weight:600;
-}
-
-.active-role{
-  background:#2563eb !important;
-  color:white !important;
-}
-
-.login-card input{
-  width:100%;
-
-  padding:14px;
-
-  margin-bottom:15px;
-
-  border:none;
-
-  border-radius:15px;
-
-  background:#f1f5f9;
-
-  outline:none;
-}
-
-.login-btn{
-  width:100%;
-
-  border:none;
-
-  padding:15px;
-
-  border-radius:15px;
-
-  background:#2563eb;
+  border-radius:24px;
 
   color:white;
 
-  font-size:1rem;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:.3s;
+  animation:
+  float 6s ease-in-out infinite;
 }
 
-.login-btn:hover{
-  transform:translateY(-2px);
+.students{
+  top:120px;
+  left:80px;
+}
+
+.attendance{
+  top:250px;
+  right:90px;
+}
+
+.faculty{
+  top:420px;
+  left:140px;
+}
+
+/* RIGHT SIDE */
+
+.right-panel{
+
+  width:45%;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  padding:40px;
+}
+
+/* Animation */
+
+@keyframes float{
+
+  0%{
+    transform:
+    translateY(0px);
+  }
+
+  50%{
+    transform:
+    translateY(-15px);
+  }
+
+  100%{
+    transform:
+    translateY(0px);
+  }
+
+}
+
+@media(max-width:992px){
+
+  .left-panel{
+    display:none;
+  }
+
+  .right-panel{
+    width:100%;
+  }
+
 }
