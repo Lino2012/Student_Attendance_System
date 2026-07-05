@@ -1,24 +1,22 @@
-import api, { unwrap } from './api'
+import api from './api'
 
-export async function login(email, password) {
-  const { data } = await api.post('/auth/login/', { email, password })
+// Matches apps/accounts/serializers.py LoginSerializer exactly: username + password.
+export async function login(username, password) {
+  const { data } = await api.post('/auth/login/', { username, password })
   localStorage.setItem('access', data.access)
   localStorage.setItem('refresh', data.refresh)
   return data
 }
 
 export async function fetchMe() {
-  const res = await api.get('/auth/me/')
-  const user = unwrap(res)
-  localStorage.setItem('user', JSON.stringify(user))
-  return user
+  const { data } = await api.get('/auth/me/')
+  localStorage.setItem('user', JSON.stringify(data))
+  return data
 }
 
 export async function logout() {
   try {
     await api.post('/auth/logout/')
-  } catch {
-    // best-effort — clear local session regardless
   } finally {
     localStorage.removeItem('access')
     localStorage.removeItem('refresh')

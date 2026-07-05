@@ -24,8 +24,8 @@ export function AuthProvider({ children }) {
     restoreSession()
   }, [])
 
-  const login = async (email, password) => {
-    await authService.login(email, password)
+  const login = async (username, password) => {
+    await authService.login(username, password)
     const me = await authService.fetchMe()
     setUser(me)
     return me
