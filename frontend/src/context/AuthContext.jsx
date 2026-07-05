@@ -1,49 +1,46 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect } from 'react'
+import * as authService from '../services/authService'
 
-export const AuthContext =
-  createContext();
+const AuthContext = createContext()
 
-export const AuthProvider = ({
-  children,
-}) => {
-  const [user, setUser] =
-    useState(null);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token =
-      localStorage.getItem(
-        "accessToken"
-      );
-
-    const role =
-      localStorage.getItem("role");
-
-    if (token) {
-      setUser({
-        token,
-        role,
-      });
+    const restoreSession = async () => {
+      const token = localStorage.getItem('access')
+      if (!token) { setLoading(false); return }
+      try {
+        const me = await authService.fetchMe()
+        setUser(me)
+      } catch {
+        localStorage.removeItem('access')
+        localStorage.removeItem('refresh')
+      } finally {
+        setLoading(false)
+      }
     }
-  }, []);
+    restoreSession()
+  }, [])
 
-  const logout = () => {
-    localStorage.clear();
-    setUser(null);
-  };
+  const login = async (email, password) => {
+    await authService.login(email, password)
+    const me = await authService.fetchMe()
+    setUser(me)
+    return me
+  }
+
+  const logout = async () => {
+    await authService.logout()
+    setUser(null)
+  }
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        setUser,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
+
+export const useAuth = () => useContext(AuthContext)

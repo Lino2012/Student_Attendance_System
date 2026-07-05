@@ -1,33 +1,63 @@
-import axios from "axios";
+import axios from 'axios'
 
 const api = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_URL ||
-    "http://127.0.0.1:8000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+})
 
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
 
-api.interceptors.request.use(
-  (config) => {
+let isRefreshing = false
+let queue = []
 
-    const token =
-      localStorage.getItem(
-        "accessToken"
-      );
+const processQueue = (error, token = null) => {
+  queue.forEach((p) => (error ? p.reject(error) : p.resolve(token)))
+  queue = []
+}
 
-    if (token) {
-      config.headers.Authorization =
-        `Bearer ${token}`;
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          queue.push({ resolve, reject })
+        }).then((token) => {
+          originalRequest.headers.Authorization = `Bearer ${token}`
+          return api(originalRequest)
+        })
+      }
+
+      originalRequest._retry = true
+      isRefreshing = true
+      const refresh = localStorage.getItem('refresh')
+
+      try {
+        const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/refresh/`, { refresh })
+        localStorage.setItem('access', data.access)
+        processQueue(null, data.access)
+        originalRequest.headers.Authorization = `Bearer ${data.access}`
+        return api(originalRequest)
+      } catch (refreshError) {
+        processQueue(refreshError, null)
+        localStorage.removeItem('access')
+        localStorage.removeItem('refresh')
+        localStorage.removeItem('user')
+        window.location.href = '/login'
+        return Promise.reject(refreshError)
+      } finally {
+        isRefreshing = false
+      }
     }
+    return Promise.reject(error)
+  }
+)
 
-    return config;
-  },
+// Unwraps the {success, message, data} envelope every endpoint returns
+export const unwrap = (response) => response.data.data
 
-  (error) =>
-    Promise.reject(error)
-);
-
-export default api;
+export default api
