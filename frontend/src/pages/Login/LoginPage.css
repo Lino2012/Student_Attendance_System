@@ -1,175 +1,311 @@
-.login-page{
-  min-height:100vh;
-  display:flex;
-  background:#f8fafc;
+@import url(
+"https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+);
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* LEFT SIDE */
-
-.left-panel{
-
-  width:55%;
-
-  position:relative;
-
-  background:
-  url("/college.jpg");
-
-  background-size:cover;
-  background-position:center;
-
+html,
+body,
+#root{
+  width:100%;
+  height:100%;
   overflow:hidden;
 }
 
-.image-overlay{
+body{
+  font-family:"Poppins",sans-serif;
+}
 
-  position:absolute;
+.login-page{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  overflow:hidden;
+  background:#f8fbff;
+}
 
-  inset:0;
+/* LEFT */
+
+.left-panel{
+  width:52%;
 
   background:
   linear-gradient(
-    to top,
-    rgba(15,23,42,.9),
-    rgba(15,23,42,.2)
+    135deg,
+    #dbeafe,
+    #93c5fd,
+    #60a5fa
   );
+
+  border-top-right-radius:70px;
+  border-bottom-right-radius:70px;
+
+  display:flex;
+  align-items:center;
+
+  padding:60px;
 }
 
-/* Branding */
-
-.branding{
-
-  position:absolute;
-
-  bottom:120px;
-
-  left:60px;
-
-  z-index:2;
-
-  color:white;
+.left-content{
+  max-width:600px;
 }
 
-.branding h1{
+.welcome{
+  color:#2563eb;
+  font-weight:600;
+  margin-bottom:20px;
+}
 
-  font-size:3rem;
+.left-content h1{
+  font-size:
+  clamp(
+    3rem,
+    5vw,
+    4.5rem
+  );
 
-  font-weight:700;
+  line-height:1.05;
+  font-weight:800;
+  color:#0f172a;
+}
+
+.left-content h1 span{
+  color:#2563eb;
+}
+
+.description{
+  margin-top:25px;
+  font-size:1.1rem;
+  line-height:1.8;
+  color:#334155;
+}
+
+.divider{
+  width:120px;
+  height:4px;
+  background:#2563eb;
+  border-radius:50px;
+  margin:28px 0;
+}
+
+.features{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.feature{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:1rem;
+  color:#0f172a;
+}
+
+.feature svg{
+  color:#2563eb;
+}
+
+/* RIGHT */
+
+.login-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
 
   margin-bottom:10px;
 }
 
-.branding p{
-
-  font-size:1.2rem;
-
-  opacity:.9;
+.logo{
+  font-size:2.2rem;
+  line-height:1;
 }
 
-/* Support */
-
-.support{
-
-  position:absolute;
-
-  bottom:40px;
-
-  left:60px;
-
-  z-index:2;
-
-  color:white;
+.login-header h2{
+  margin:0;
+  font-size:2.5rem;
+  color:#0f172a;
 }
-
-.support a{
-
-  display:block;
-
-  margin-top:8px;
-
-  color:white;
-}
-
-/* Floating Cards */
-
-.floating-card{
-
-  position:absolute;
-
-  z-index:2;
-
-  background:
-  rgba(255,255,255,.15);
-
-  backdrop-filter:
-  blur(12px);
-
-  border:
-  1px solid
-  rgba(255,255,255,.2);
-
-  padding:20px;
-
-  border-radius:24px;
-
-  color:white;
-
-  animation:
-  float 6s ease-in-out infinite;
-}
-
-.students{
-  top:120px;
-  left:80px;
-}
-
-.attendance{
-  top:250px;
-  right:90px;
-}
-
-.faculty{
-  top:420px;
-  left:140px;
-}
-
-/* RIGHT SIDE */
 
 .right-panel{
-
-  width:45%;
+  width:48%;
 
   display:flex;
-
   justify-content:center;
-
   align-items:center;
 
-  padding:40px;
+  padding:60px 40px;
 }
 
-/* Animation */
+.login-box{
+  width:100%;
+  max-width:420px;
 
-@keyframes float{
+  padding:28px 32px;
 
-  0%{
-    transform:
-    translateY(0px);
-  }
+  border-radius:28px;
 
-  50%{
-    transform:
-    translateY(-15px);
-  }
+  background:rgba(
+    255,
+    255,
+    255,
+    0.75
+  );
 
-  100%{
-    transform:
-    translateY(0px);
-  }
+  backdrop-filter:blur(20px);
 
+  border:1px solid rgba(
+    255,
+    255,
+    255,
+    0.6
+  );
+
+  box-shadow:
+    0 15px 40px
+    rgba(
+      37,
+      99,
+      235,
+      0.08
+    );
 }
 
-@media(max-width:992px){
+.logo{
+  font-size:2.5rem;
+  margin-bottom:5px;
+  text-align:center;
+}
+
+.login-box h2{
+  text-align:center;
+  font-size:2.4rem;
+  color:#0f172a;
+}
+
+.subtitle{
+  text-align:center;
+  color:#64748b;
+  margin-top:8px;
+  margin-bottom:24px;
+}
+
+.login-box label{
+  display:block;
+  margin-bottom:6px;
+  margin-top:14px;
+  font-weight:600;
+  color:#0f172a;
+}
+
+.input-box{
+  display:flex;
+  align-items:center;
+
+  background:white;
+
+  border-radius:16px;
+
+  padding:12px 16px;
+
+  border:
+  1px solid #dbeafe;
+}
+
+.input-icon{
+  color:#2563eb;
+}
+
+.input-box input{
+  flex:1;
+
+  border:none;
+  outline:none;
+
+  padding-left:12px;
+
+  font-size:1rem;
+}
+
+.eye-btn{
+  background:none;
+  border:none;
+  cursor:pointer;
+  color:#64748b;
+}
+
+.options{
+  margin-top:20px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.options a{
+  text-decoration:none;
+  color:#2563eb;
+}
+
+.login-btn{
+  width:100%;
+
+  margin-top:25px;
+
+  border:none;
+
+  padding:14px;
+
+  border-radius:16px;
+
+  background:
+  linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  color:white;
+
+  font-size:1rem;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.login-btn:hover{
+  transform:translateY(-2px);
+}
+
+.contact-admin{
+  margin-top:25px;
+  text-align:center;
+  color:#64748b;
+}
+
+.contact-admin a{
+  margin-left:6px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:600;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1024px){
 
   .left-panel{
     display:none;
@@ -178,5 +314,4 @@
   .right-panel{
     width:100%;
   }
-
 }
