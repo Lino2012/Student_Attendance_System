@@ -23,10 +23,10 @@ export default function Navbar({ title }) {
 
         <div className="flex items-center gap-3 pl-4 border-l border-border">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue to-blue-light text-white flex items-center justify-center text-sm font-medium">
-            {(user?.name || user?.email)?.[0]?.toUpperCase() || 'U'}
+            {(user?.full_name || user?.username)?.[0]?.toUpperCase() || 'U'}
           </div>
           <div className="hidden sm:block">
-            <p className="text-sm font-medium text-ink leading-tight">{user?.name || user?.email}</p>
+            <p className="text-sm font-medium text-ink leading-tight">{user?.full_name || user?.username}</p>
             <p className="text-xs text-ink-soft capitalize leading-tight">{user?.role?.toLowerCase()}</p>
           </div>
           <button onClick={handleLogout} className="text-ink-soft hover:text-danger transition ml-2">

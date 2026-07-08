@@ -4,34 +4,40 @@ import * as authService from '../services/authService'
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const cached = localStorage.getItem('user')
-    return cached ? JSON.parse(cached) : null
-  })
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(null)
+  // Start in loading state while we verify the stored token
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Refresh the cached profile in the background, but don't block
-    // rendering on it — an unreachable backend shouldn't log someone
-    // out of a session they already had.
     const token = localStorage.getItem('access')
-    if (!token) return
+    if (!token) {
+      setLoading(false)
+      return
+    }
 
+    // Try to refresh the profile from the server with the stored token.
+    // If the token is expired / invalid, clear and force re-login.
     authService.fetchMe()
-      .then(setUser)
+      .then((me) => {
+        setUser(me)
+      })
       .catch((err) => {
         if (err.response?.status === 401) {
           localStorage.removeItem('access')
           localStorage.removeItem('refresh')
           localStorage.removeItem('user')
-          setUser(null)
+        } else {
+          // Backend unreachable — fall back to cached user so the UI is usable offline
+          const cached = localStorage.getItem('user')
+          if (cached) setUser(JSON.parse(cached))
         }
       })
+      .finally(() => setLoading(false))
   }, [])
 
   const login = async (username, password) => {
-    await authService.login(username, password)
-    const me = await authService.fetchMe()
+    // authService.login returns the user object directly
+    const me = await authService.login(username, password)
     setUser(me)
     return me
   }
