@@ -1,19 +1,28 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 
 # Django stuff:
-db.sqlite3
-db.sqlite3-journal
+**/db.sqlite3
+**/db.sqlite3-journal
 
 # Environments
 .env
-.venv
-env/
+.env.*
+.venv/
 venv/
+env/
 ENV/
+**/venv/
+**/.venv/
+
+# Node/Frontend
 node_modules/
+**/node_modules/
+dist/
+**/dist/
+
 # IDE / Editor configuration
 .vscode/
 .idea/
@@ -22,9 +31,8 @@ node_modules/
 *.ntvs*
 *.njsproj
 *.sln
-pyproject.toml
-pyrefly.toml
+*.log
+**/*.log
 
-# Frontend build outputs
-dist/
-frontend/dist/
+# Vite/Frontend temp files
+**/vite.config.js.timestamp-*

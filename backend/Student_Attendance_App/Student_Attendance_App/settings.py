@@ -14,6 +14,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from datetime import timedelta
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,7 +86,6 @@ WSGI_APPLICATION = 'Student_Attendance_App.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-
 DATABASE_URL = 'mysql://root:OBFEMIBqWBkYfOYLiYELvIYEKeDbkXgf@hayabusa.proxy.rlwy.net:57187/railway'
 parsed_db = urlparse(DATABASE_URL)
 DATABASES = {
@@ -99,13 +99,8 @@ DATABASES = {
     }
 }
 
-# --- SQLite (local development) ---
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
+
 
 
 # Password validation

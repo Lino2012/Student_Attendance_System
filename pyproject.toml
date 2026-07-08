@@ -1,0 +1,2 @@
+[tool.pyrefly]
+python-interpreter-path = "d:/Project/Student_Attendance_System/.venv/Scripts/python.exe"
