@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+db.sqlite3
+db.sqlite3-journal
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+node_modules/
+# IDE / Editor configuration
+.vscode/
+.idea/
+*.suo
+*.sw?
+*.ntvs*
+*.njsproj
+*.sln
+pyproject.toml
+pyrefly.toml
+
+# Frontend build outputs
+dist/
+frontend/dist/
