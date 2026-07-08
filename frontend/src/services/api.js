@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: BASE_URL,
 })
 
 api.interceptors.request.use((config) => {
@@ -37,7 +39,7 @@ api.interceptors.response.use(
       const refresh = localStorage.getItem('refresh')
 
       try {
-        const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/refresh/`, { refresh })
+        const { data } = await axios.post(`${BASE_URL}/auth/refresh/`, { refresh })
         localStorage.setItem('access', data.access)
         processQueue(null, data.access)
         originalRequest.headers.Authorization = `Bearer ${data.access}`
@@ -57,7 +59,11 @@ api.interceptors.response.use(
   }
 )
 
-// Unwraps the {success, message, data} envelope every endpoint returns
-export const unwrap = (response) => response.data.data
+// Handles both DRF paginated responses { results: [] } and flat arrays
+export const normalizeList = (data) => {
+  if (Array.isArray(data)) return data
+  if (data && Array.isArray(data.results)) return data.results
+  return []
+}
 
 export default api
