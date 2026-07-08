@@ -237,8 +237,8 @@ function Showcase() {
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative h-96">
           <div className="absolute inset-0 bg-gradient-to-br from-blue to-blue-light rounded-3xl rotate-2" />
           <div className="absolute inset-4 bg-white/10 backdrop-blur-xl border border-white/30 rounded-2xl flex flex-col items-center justify-center gap-4 -rotate-1">
-            <CalendarCheck size={56} className="text-white" strokeWidth={1.5} />
-            <p className="text-white/90 font-medium text-sm">Faculty marking attendance in real time</p>
+            <img src="src\assets\images\features\features.jpg" alt="Attendance Dashboard" className="w-full h-full object-cover rounded-2xl shadow-xl"
+/>
           </div>
         </motion.div>
 
@@ -290,37 +290,6 @@ function AnimatedCounter({ target, suffix = '' }) {
 
   return (
     <span ref={ref}>{count.toLocaleString()}{suffix}</span>
-  )
-}
-
-function Stats() {
-  const stats = [
-    { value: 5000, suffix: '+', label: 'Students Managed' },
-    { value: 200, suffix: '+', label: 'Faculty Members' },
-    { value: 50, suffix: '+', label: 'Departments' },
-    { value: 99.9, suffix: '%', label: 'Attendance Accuracy', decimal: true },
-  ]
-  return (
-    <section className="py-20 px-6 md:px-10 max-w-7xl mx-auto">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-        {stats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            transition={{ delay: i * 0.1 }}
-            className="bg-white/70 backdrop-blur-xl border border-white/60 rounded-2xl p-7 text-center shadow-sm"
-          >
-            <p className="text-3xl md:text-4xl font-heading font-semibold bg-gradient-to-r from-blue to-blue-light bg-clip-text text-transparent mb-2">
-              {s.decimal ? '99.9%' : <AnimatedCounter target={s.value} suffix={s.suffix} />}
-            </p>
-            <p className="text-sm text-ink-soft">{s.label}</p>
-          </motion.div>
-        ))}
-      </div>
-    </section>
   )
 }
 
@@ -403,7 +372,6 @@ export default function Home() {
       <Hero />
       <Features />
       <Showcase />
-      <Stats />
       <Quote />
       <FinalCTA />
       <Footer />
