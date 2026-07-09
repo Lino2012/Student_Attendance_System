@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+# pyrefly: ignore [missing-import]
 from apps.academics.models import Subject, Faculty, Course, Student
 
 class AttendanceSession(models.Model):

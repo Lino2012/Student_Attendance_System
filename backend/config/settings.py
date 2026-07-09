@@ -3,6 +3,7 @@ Django settings for Student Attendance Management System.
 """
 
 import os
+import re
 from pathlib import Path
 from decouple import config, Csv
 from datetime import timedelta
@@ -70,21 +71,42 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
-# Database — Railway MySQL
-import pymysql
-pymysql.install_as_MySQLdb()
+# Database configuration
+# Use the Railway MySQL database for the full application flow.
+DATABASE_URL = config("DATABASE_URL", default="mysql://root:OBFEMIBqWBkYfOYLiYELvIYEKeDbkXgf@hayabusa.proxy.rlwy.net:57187/railway")
+match = re.match(r"^mysql://(?P<user>[^:]+):(?P<password>[^@]+)@(?P<host>[^:]+):(?P<port>\d+)/(?P<name>.+)$", DATABASE_URL)
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": config("MYSQLDATABASE", default="student_attendance"),
-        "USER": config("MYSQLUSER", default="root"),
-        "PASSWORD": config("MYSQLPASSWORD", default=""),
-        "HOST": config("MYSQLHOST", default="127.0.0.1"),
-        "PORT": config("MYSQLPORT", default="3306"),
-        "OPTIONS": {"charset": "utf8mb4"},
+if match:
+    db_config = match.groupdict()
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": db_config["name"],
+            "USER": db_config["user"],
+            "PASSWORD": db_config["password"],
+            "HOST": db_config["host"],
+            "PORT": int(db_config["port"]),
+            "OPTIONS": {
+                "charset": "utf8mb4",
+                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": config("MYSQLDATABASE", default="railway"),
+            "USER": config("MYSQLUSER", default="root"),
+            "PASSWORD": config("MYSQLPASSWORD", default=""),
+            "HOST": config("MYSQLHOST", default="127.0.0.1"),
+            "PORT": config("MYSQLPORT", default="3306"),
+            "OPTIONS": {
+                "charset": "utf8mb4",
+                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
