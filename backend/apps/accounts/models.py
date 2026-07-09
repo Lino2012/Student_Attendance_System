@@ -20,6 +20,9 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('role', 'ADMIN')
         return self.create_user(email, password, **extra_fields)
 
+    def get_by_natural_key(self, username):
+        return self.get(email__iexact=username)
+
 class User(AbstractBaseUser, PermissionsMixin):
     class Role(models.TextChoices):
         ADMIN = 'ADMIN', 'Admin'
@@ -31,6 +34,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128, db_column='password_hash')
+
+    def save(self, *args, **kwargs):
+        if self.role in {self.Role.ADMIN, self.Role.FACULTY, self.Role.STUDENT}:
+            self.is_staff = False
+        if self.role == self.Role.ADMIN:
+            self.is_staff = True
+        super().save(*args, **kwargs)
+
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.STUDENT)
     is_active = models.BooleanField(default=True)
     
