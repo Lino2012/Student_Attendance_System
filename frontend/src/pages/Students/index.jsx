@@ -26,6 +26,7 @@ export default function Students() {
   const openAdd = () => {
     setEditing(null)
     reset({
+      full_name: '',
       roll_number: '',
       email: '',
       semester: 1,
@@ -39,6 +40,7 @@ export default function Students() {
   const openEdit = (s) => {
     setEditing(s)
     reset({
+      full_name: s.full_name || '',
       roll_number: s.roll_number,
       email: s.email,
       semester: s.semester,
@@ -128,9 +130,10 @@ export default function Students() {
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Student' : 'Add Student'}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <Input label="Full Name" error={errors.full_name?.message} {...register('full_name', { required: 'Full name is required' })} />
           <Input label="Roll Number" error={errors.roll_number?.message} {...register('roll_number', { required: 'Roll number is required' })} />
           <Input label="Email" type="email" error={errors.email?.message} {...register('email', { required: 'Email is required' })} />
-          
+
           <Select label="Department" error={errors.department?.message} {...register('department', { required: 'Department is required' })}>
             <option value="">Select Department</option>
             {departments?.map((d) => (

@@ -21,7 +21,18 @@ const processQueue = (error, token = null) => {
 }
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Auto-unwrap backend envelope: { success, message, data }
+    if (
+      response.data &&
+      typeof response.data === 'object' &&
+      'success' in response.data &&
+      'data' in response.data
+    ) {
+      response.data = response.data.data
+    }
+    return response
+  },
   async (error) => {
     const originalRequest = error.config
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -62,7 +73,9 @@ api.interceptors.response.use(
   }
 )
 
-// Handles both DRF paginated responses { results: [] } and flat arrays
+// Handles both DRF paginated responses { results: [] } and flat arrays.
+// (Envelope unwrapping now happens above in the response interceptor,
+// so by the time data reaches here it's already { results: [...] } or [...].)
 export const normalizeList = (data) => {
   if (Array.isArray(data)) return data
   if (data && Array.isArray(data.results)) return data.results

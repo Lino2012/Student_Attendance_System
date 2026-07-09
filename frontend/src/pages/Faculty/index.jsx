@@ -23,6 +23,7 @@ export default function Faculty() {
   const openAdd = () => {
     setEditing(null)
     reset({
+      full_name: '',
       employee_code: '',
       email: '',
       department: ''
@@ -33,6 +34,7 @@ export default function Faculty() {
   const openEdit = (f) => {
     setEditing(f)
     reset({
+      full_name: f.full_name || '',
       employee_code: f.employee_code,
       email: f.email,
       department: f.department || ''
@@ -111,9 +113,10 @@ export default function Faculty() {
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Faculty' : 'Add Faculty'}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <Input label="Full Name" error={errors.full_name?.message} {...register('full_name', { required: 'Full name is required' })} />
           <Input label="Employee Code" error={errors.employee_code?.message} {...register('employee_code', { required: 'Employee code is required' })} />
           <Input label="Email" type="email" error={errors.email?.message} {...register('email', { required: 'Email is required' })} />
-          
+
           <Select label="Department" error={errors.department?.message} {...register('department', { required: 'Department is required' })}>
             <option value="">Select Department</option>
             {departments?.map((d) => (
