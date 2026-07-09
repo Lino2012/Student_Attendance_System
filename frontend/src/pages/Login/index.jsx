@@ -14,17 +14,17 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const onSubmit = async ({ username, password }) => {
+  const onSubmit = async ({ email, password }) => {
     setLoading(true)
     try {
-      const user = await login(username, password)
-      toast.success(`Welcome back, ${user.full_name || user.username}`)
+      const user = await login(email, password)
+      toast.success(`Welcome back, ${user.name}`)
       navigate(`/${user.role.toLowerCase()}`)
     } catch (err) {
       if (err.response?.status === 404) {
         toast.error('Login endpoint not available yet — backend still in progress')
       } else if (err.response?.status === 401) {
-        toast.error('Invalid username or password')
+        toast.error('Invalid email or password')
       } else {
         toast.error('Could not reach the server')
       }
@@ -74,11 +74,12 @@ export default function Login() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
             <Input
-              label="Username"
+              label="Email"
+              type="email"
               icon={FiUser}
-              placeholder="Your username"
-              error={errors.username?.message}
-              {...register('username', { required: 'Username is required' })}
+              placeholder="you@example.com"
+              error={errors.email?.message}
+              {...register('email', { required: 'Email is required' })}
             />
             <div className="relative">
               <Input

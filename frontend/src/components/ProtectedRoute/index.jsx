@@ -8,8 +8,10 @@ export default function ProtectedRoute({ children, allowedRoles }) {
   if (loading) return <Loader full />
   if (!user) return <Navigate to="/login" />
 
-  const role = user.role?.toLowerCase()
-  if (allowedRoles && !allowedRoles.includes(role)) return <Navigate to="/login" />
+  const role = user.role?.toString().toLowerCase()
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    return <Navigate to={role ? `/${role}` : '/login'} replace />
+  }
 
   return children
 }

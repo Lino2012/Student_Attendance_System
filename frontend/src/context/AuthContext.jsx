@@ -35,9 +35,9 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false))
   }, [])
 
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     // authService.login returns the user object directly
-    const me = await authService.login(username, password)
+    const me = await authService.login(email, password)
     setUser(me)
     return me
   }
